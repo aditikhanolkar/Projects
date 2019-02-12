@@ -1,0 +1,13 @@
+{% extends "login/header.html" %}
+
+{% block content %}
+	<form action='/updated/' method="POST">
+		{% csrf_token %}
+	    <div class="checkbox">
+			{% for student in students %}
+				<label>{{ student.pk }}<input type="checkbox" name='id[]' value="{{ student.pk }}">{{ student.name }}</label>
+			{% endfor %}
+		</div>
+		<button class="btn btn-lg btn-primary btn-block">Submit</button>
+	</form>
+{% endblock %}

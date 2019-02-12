@@ -1,0 +1,26 @@
+{% extends "login/header.html" %}
+
+{% block content %}
+	<form action="/attendance/" method="POST">
+		{% csrf_token %}
+	    <select class="form-control" name="semester" required>
+			<option selected disabled>Select Semester</option>
+			{% for semester in semesters %}
+				<option  value="{{semester}}">{{semester}}</option>
+			{% endfor %}
+	    </select>
+		<select class="form-control" name="field" required>
+			<option selected disabled>Select Field</option>
+			{% for field in fields %}
+				<option value="{{field}}">{{field}}</option>
+			{% endfor %}
+	    </select>
+		<select class="form-control" name="subject" required>
+			<option selected disabled>Select Subject</option>
+			{% for subject in subjects %}
+				<option value="{{subject}}">{{subject}}</option>
+			{% endfor %}
+	    </select><br>
+		<button class="btn btn-lg btn-primary btn-block">Next</button>
+	</form>
+{% endblock %}
