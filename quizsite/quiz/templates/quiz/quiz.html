@@ -1,0 +1,48 @@
+{% extends "quiz/header.html" %}
+{% block content %}
+		<script>
+			var score = 1;
+			$(document).ready(function(){
+				for (i = 2; i < 11; i++) { 
+					$("#" + i).hide();
+				}
+			});
+			function getID(element, value){
+				var divID = parseInt(element.parentNode.id);
+				var answer = document.getElementsByTagName("var")
+				
+				if (divID < 10){
+					if(value == answer[divID-1].innerHTML)
+					{
+						score++;
+						document.getElementById(element.id).className = "btn btn-lg btn-success btn-block";
+						//alert(value);
+					}
+					else{	
+						document.getElementById(element.id).className = "btn btn-lg btn-danger btn-block";
+						document.getElementById("var" + divID.toString()).style = "display: flex; justify-content: center; font-size: 25px;";
+					}
+					setTimeout(function(){
+						$("#" + divID.toString()).hide();
+						divID++;
+						$("#" + divID.toString()).show();
+					}, 1500);
+				}else{
+					setTimeout(function(){
+						window.location.assign("/score/?score=" + score)
+					}, 1500);
+				}
+			}
+		</script>
+		{% csrf_token %}
+		{% for mcq in mcqs %}
+			<div id="{{ forloop.counter }}">
+				<h4>{{ mcq.question }}</h4>
+				<button id="button1{{ forloop.counter }}" class="btn btn-lg btn-primary btn-block" onclick="getID(this, this.value);" data-toggle="tooltip" data-placement="bottom" title='{{mcq.option1}}' value='{{mcq.option1}}'><span style='text-overflow: ellipsis; overflow: hidden;white-space: nowrap;display: block;'>{{mcq.option1}}</span></button>
+				<button id="button2{{ forloop.counter }}" class="btn btn-lg btn-primary btn-block" onclick="getID(this, this.value);" data-toggle="tooltip" data-placement="bottom" title='{{mcq.option2}}' value='{{mcq.option2}}'><span style='text-overflow: ellipsis; overflow: hidden;white-space: nowrap;display: block;'>{{mcq.option2}}</span></button>
+				<button id="button3{{ forloop.counter }}" class="btn btn-lg btn-primary btn-block" onclick="getID(this, this.value);" data-toggle="tooltip" data-placement="bottom" title='{{mcq.option3}}' value='{{mcq.option3}}'><span style='text-overflow: ellipsis; overflow: hidden;white-space: nowrap;display: block;'>{{mcq.option3}}</span></button>
+				<button id="button4{{ forloop.counter }}" class="btn btn-lg btn-primary btn-block" onclick="getID(this, this.value);" data-toggle="tooltip" data-placement="bottom" title='{{mcq.option4}}' value='{{mcq.option4}}'><span style='text-overflow: ellipsis; overflow: hidden;white-space: nowrap;display: block;'>{{mcq.option4}}</span></button>
+				<br><var id="var{{ forloop.counter }}" style="display: None;">{{mcq.answer}}</var>
+			</div>
+		{% endfor %}
+{% endblock %}
